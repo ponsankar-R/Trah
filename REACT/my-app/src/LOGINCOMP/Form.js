@@ -4,7 +4,12 @@ import { BsTruckFlatbed } from "react-icons/bs";
 import { PiTruckFill } from "react-icons/pi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; 
 
-export default function Form({ formType }) {
+
+//formType is passed as prop from loginTypePage 
+//formBackendType for better handling backend logic ,see LoginTypePage.js for better understanding what it holds
+
+export default function Form({ formType ,formBackendType}) {
+
   //state variable for truck animation on submit button
   const [animateTruck, setAnimateTruck] = useState(false);
   //state variable for 'eye' icon in password to toggle eye open and close and password
@@ -40,6 +45,7 @@ export default function Form({ formType }) {
   return (
     <div id="LRform">
       <form id="LRformbody" onSubmit={handleSubmit}>
+       
         <h1>{formType}</h1>
 
         <div className="inputGroup">
