@@ -1,0 +1,18 @@
+
+Form.js (1form style + 'Type out of 4 ' = form data => userName,Password) *userName= max 22char ,Password=max 12 char
+    ^
+    |
+    |
+LoginTypePage.js (LOGIN/REGISTER -> TRUCK OWNER / TRUCK BOOKER) - 2*2= 4 types
+    ^
+    |
+(ContextHook)
+    |
+    |
+Login.js (LOGIN / REGESTER)
+    ^
+    |
+    |
+(App.js)[React Route Dom]
+
+ ******START HERE******

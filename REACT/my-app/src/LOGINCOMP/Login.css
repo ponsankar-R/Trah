@@ -1,0 +1,99 @@
+#loginComponent {
+    height: 100vh;
+    background-color: rgb(243, 238, 248);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url('https://images.pexels.com/photos/192364/pexels-photo-192364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover; 
+    background-position: center; 
+}
+
+#appName {
+    text-align: center;
+    font-style: italic;
+    font-family: 'Georgia', serif;
+    font-weight: bolder;
+    background-color: #333;
+    color: #f5f5f5;
+    padding: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#welcome {
+    position: absolute;
+    left: 0;
+    top: 10vh;
+    border: 1px solid #000;
+    background-color: #6a0dad;
+    color: #e0f7fa;
+    padding: 2px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-right: 10px;
+}
+
+#loginOptionBox {
+    border: 1px dashed #000;
+    height: 30vh;
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #ecdede;
+    box-shadow: 0 4px 8px rgba(20, 20, 20, 0.7);
+    margin-bottom: 20vh;
+    padding: 0 10px;
+    
+}
+#quote {
+    background-color: #F5F5F5; 
+    padding: 30px; 
+    margin: 20px; 
+    border-radius: 10px; 
+    text-align: center; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    position: relative; 
+}
+#login {
+    margin: 5px;
+    padding: 5px 15px;
+    background-color: #5a2d77;
+    color: #f5f5f5;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#login:hover {
+    background-color: #4e1e5a;
+    transform: scale(1.05);
+}
+
+#register {
+    margin: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #4caf50;
+    color: #f5f5f5;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#register:hover {
+    background-color: #388e3c;
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+

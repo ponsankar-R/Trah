@@ -1,0 +1,57 @@
+#loginTypePage{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+
+
+.userTypeButtons{
+    padding: 20px;
+    background-color: blueviolet;
+    margin-top: 35vh;
+    border-radius: 10px;
+
+    
+}
+.typeButton{
+    padding: 20px 10px;
+    margin-right: 20px;
+    border-radius: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bolder;
+    font-size: 1rem;
+    
+}
+
+.truck{
+    color: blue;
+    font-size: 25px;
+    padding-right:10px ;
+}
+.book{
+    color: blue;
+    font-size: 25px;
+    padding-right: 10px;
+    
+}
+@media screen and (max-width:768px){
+    .userTypeButtons{
+        padding: 20px;
+        background-color: blueviolet;
+        margin-top: 35vh;
+        
+    }
+
+    .typeButton{
+        margin-right:20px;
+        margin-top: 10px;
+        margin-left: 20vw;
+        width: 50vw;
+        
+    }
+ 
+    
+}
