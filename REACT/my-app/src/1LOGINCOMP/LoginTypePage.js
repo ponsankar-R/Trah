@@ -46,7 +46,7 @@ export default function LoginTypePage() {
                     </div>
                 )}
             </div>
-            {showForm && <Form formType={[formType,formBackendType]} />} {/* Passed 'formType' as prop */}
+            {showForm && <Form formTypes={[formType,formBackendType]} />} {/* Passed 'formType' as prop */}
         </div>
     );
 }

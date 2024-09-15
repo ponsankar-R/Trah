@@ -1,52 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Form.css';
 import { BsTruckFlatbed } from "react-icons/bs";
 import { PiTruckFill } from "react-icons/pi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; 
+import { PanelContext } from '../App';
 
+export default function Form({formTypes}) {
+  // Reciving "whereToGoNext" state function for changing panel
+  const setWhereToGoNext = useContext(PanelContext);
 
-//formType is passed as prop from loginTypePage 
-//formBackendType for better handling backend logic ,see LoginTypePage.js for better understanding what it holds
-
-export default function Form({ formType ,formBackendType}) {
-
-  //state variable for truck animation on submit button
+  // State variable for truck animation on submit button
   const [animateTruck, setAnimateTruck] = useState(false);
-  //state variable for 'eye' icon in password to toggle eye open and close and password
+
+  // State variable for 'eye' icon in password to toggle eye open and close
   const [passwordVisible, setPasswordVisible] = useState(false);
-  //state variable for maintaining enterd values in form
+
+  // State variable for maintaining entered values in form
   const [formData, setFormData] = useState({ userName: '', password: '' });
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  //handling live form data and update in state varable
+  // Handling live form data and updating state variable
   const handleFormData = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  //handling both data and animation ,onsubmit set user name and 
+  // Handling both data and animation on form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    //destructuring form data and store into variables 
+    // Destructuring form data and storing into variables 
     const { userName, password } = formData;
 
     if (userName && password) {
-
       setAnimateTruck(true);
       setTimeout(() => {
         setAnimateTruck(false);
       }, 1000);
+
+      // Routing based on formTypes after successful submission
+      if (formTypes[1] === 'TL' || formTypes[1] === 'TR') {
+        setWhereToGoNext("truck");
+      } else if (formTypes[1] === 'BL' || formTypes[1] === 'BR') {
+        setWhereToGoNext("booking");
+      }
     }
   };
 
   return (
     <div id="LRform">
       <form id="LRformbody" onSubmit={handleSubmit}>
-       
-        <h1>{formType}</h1>
+        <h1 id="formType">{formTypes[0]}</h1>
 
         <div className="inputGroup">
           <label htmlFor="userName">Enter Your Username</label>
