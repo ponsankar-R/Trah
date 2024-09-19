@@ -4,6 +4,8 @@ function AddTruckContainer({ setAddTruckContainer }) {
   const [truckName, setTruckName] = useState('');
   const [driverName, setDriverName] = useState('');
   const [truckCapacity, setTruckCapacity] = useState('');
+  const [truckType,setTruckType]=useState('');
+  const [truckContact,setTruckContact]=useState('');
 
   const handleTruckAddCancelButton = () => {
     setAddTruckContainer(false);
@@ -56,9 +58,26 @@ function AddTruckContainer({ setAddTruckContainer }) {
             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Truck Maximum Capacity:"
             type="number"
+            min='0'
             value={truckCapacity}
             onChange={(e) => setTruckCapacity(e.target.value)}
           />
+          <input 
+          className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Type Of The Truck :ex:10 Wheeler"
+            type="text"
+            value={truckType}
+            onChange={(e)=> setTruckType(e.target.value)}
+          />
+          <input  
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Contact Number :"
+            type="number"
+            min='0'
+            value={truckContact}
+            onChange={(e)=>setTruckContact(e.target.value)}
+            />
+            
 
           <button
   

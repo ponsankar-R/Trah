@@ -7,7 +7,7 @@ import Profile from './4Profile';
 
 export default function TRUCKHOME() {
   const [truckNavigation,setTruckNavigation]=useState("ActiveTripButton");
-
+  
   
 
   return (

@@ -3,6 +3,12 @@ import { FaTruck, FaSignOutAlt, FaQuestionCircle } from 'react-icons/fa';  // Ic
 import { MdLocalShipping } from 'react-icons/md';
 
 function Profile() {
+  //currently unable to use context 
+  // const setWhereToGoNext = useContext(PanelContext);
+  //handling signOut 
+  const handleSignOut=()=>{
+
+  }
   return (
     <div className='md:ml-[7%] p-6 bg-gray-100 min-h-screen'>
       {/* Profile Section */}
@@ -41,7 +47,7 @@ function Profile() {
           Help
         </button>
 
-        <button className='w-full flex items-center justify-center bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition duration-200'>
+        <button onClick={handleSignOut} className='w-full flex items-center justify-center bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition duration-200'>
           <FaSignOutAlt className='mr-2 text-lg' />
           Sign Out
         </button>
