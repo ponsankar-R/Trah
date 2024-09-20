@@ -4,48 +4,66 @@ import { BsTruckFlatbed } from "react-icons/bs";
 import { PiTruckFill } from "react-icons/pi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; 
 
-
-//formType is passed as prop from loginTypePage 
-//formBackendType for better handling backend logic ,see LoginTypePage.js for better understanding what it holds
-
-export default function Form({ formType ,formBackendType}) {
-
-  //state variable for truck animation on submit button
+export default function Form({ formType, formBackendType }) {
+  // State variables for animations and password visibility
   const [animateTruck, setAnimateTruck] = useState(false);
-  //state variable for 'eye' icon in password to toggle eye open and close and password
   const [passwordVisible, setPasswordVisible] = useState(false);
-  //state variable for maintaining enterd values in form
-  const [formData, setFormData] = useState({ userName: '', password: '' });
+  const [formData, setFormData] = useState({ userName: '', password: '', userType: '' });
+  const [message, setMessage] = useState('');
 
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  //handling live form data and update in state varable
+  // Handle form data updates
   const handleFormData = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  //handling both data and animation ,onsubmit set user name and 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //destructuring form data and store into variables 
     const { userName, password } = formData;
+    const userType = formBackendType === 'TR' || formBackendType === 'TL' ? 'Truck Owner' : 'Booker';
 
     if (userName && password) {
-
       setAnimateTruck(true);
       setTimeout(() => {
         setAnimateTruck(false);
       }, 1000);
+
+      try {
+        // Send the data to the back-end with the correct URL and field names
+        const response = await fetch('http://localhost:5000/register', { // Update the URL as needed
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: userName, password, type: userType }), // Changed 'userType' to 'type'
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          setMessage('Registration successful');
+          // Optionally, reset the form
+          setFormData({ userName: '', password: '', userType: '' });
+        } else {
+          setMessage(`Error: ${result.message}`);
+        }
+      } catch (error) {
+        setMessage('An unexpected error occurred.');
+        console.error("Error during fetch:", error);
+      }
+    } else {
+      setMessage('Please fill in all required fields.');
     }
   };
 
   return (
     <div id="LRform">
       <form id="LRformbody" onSubmit={handleSubmit}>
-       
         <h1>{formType}</h1>
 
         <div className="inputGroup">
@@ -85,6 +103,17 @@ export default function Form({ formType ,formBackendType}) {
           </span>
         </div>
 
+        {/* User type is determined by formBackendType and displayed here */}
+        <div className="inputGroup">
+          <label>User Type: </label>
+          <input 
+            type="text" 
+            name="userType"
+            value={formBackendType === 'TR' || formBackendType === 'TL' ? 'Truck Owner' : 'Booker'}
+            disabled 
+          />
+        </div>
+
         <div id="enterContainer">
           <button id="enterForm" type="submit">
             <BsTruckFlatbed id="emptyTruckIcon" className={animateTruck ? 'animate' : ''} />
@@ -92,6 +121,9 @@ export default function Form({ formType ,formBackendType}) {
             <PiTruckFill id="fullTruckIcon" />
           </button>
         </div>
+
+        {/* Display success/error message */}
+        {message && <p>{message}</p>}
       </form>
     </div>
   );

@@ -6,20 +6,16 @@ import { FaHandsHelping } from "react-icons/fa";
 import Form from './Form';
 
 export default function LoginTypePage() {
-    // Receiving data from login component
     const loginData = useContext(LoginContext);
-    
-    // State variables
+
     const [showForm, setShowForm] = useState(false); 
     const [formType, setFormType] = useState('');
     const [formBackendType,setFormBackendType]=useState(0);
 
-    // General function for handling form display and type setting
     const handleForm = (type,backendType)=> {
         setShowForm(true);
         setFormType(type);
         setFormBackendType(backendType);
-        //TL =truck login  || BL = booker Login || TR = Truck Register || BR =booker register
     };
 
     return (
@@ -46,7 +42,7 @@ export default function LoginTypePage() {
                     </div>
                 )}
             </div>
-            {showForm && <Form formType={[formType,formBackendType]} />} {/* Passed 'formType' as prop */}
+            {showForm && <Form formType={[formType,formBackendType]} />}
         </div>
     );
 }
