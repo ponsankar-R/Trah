@@ -1,0 +1,149 @@
+/* Overall form container */
+#LRform {
+    position: absolute;
+    height: 90vh;
+    width: 100vw;
+    top: 10vh;
+    background-color: #f9f9fc; /* Softer light background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form body styling */
+#LRformbody {
+    display: flex;
+    flex-direction: column;
+    height: auto; /* Let the form adjust based on content */
+    width: 90%;
+    max-width: 400px; /* Cap the width for larger screens */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    background-color: white;
+    padding: 30px; /* Increase padding for a roomier feel */
+    justify-content: space-between;
+}
+
+/* Input fields group */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 8px; /* Slightly larger space between label and input */
+    font-weight: 600;
+    color: #333; /* Darker text for readability */
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    font-size: 14px;
+}
+
+input {
+    padding: 12px; /* More padding for better UX */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #007bff; /* Highlight border on focus */
+    outline: none;
+}
+
+/* Password container and visibility toggle */
+.passwordContainer {
+    position: relative;
+}
+
+.passwordToggleIcon {
+    position: absolute;
+    right: 15px;
+    top: 45px; /* Adjust for the new input height */
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.passwordToggleIcon:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+/* Button container */
+#enterContainer {
+    display: flex;
+    justify-content: center;
+}
+
+/* Submit button styling */
+#enterForm {
+    width: 60%; /* Wider button */
+    height: 50px; /* Taller button for better usability */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center icons vertically */
+    padding: 8px 12px;
+    background-color: #28a745; /* Bootstrap green */
+    border-radius: 8px; /* Softer button shape */
+    color: white; /* Contrasting text color */
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#enterForm:hover {
+    background-color: #218838; /* Darken on hover */
+    transform: scale(1.05); /* Slight grow effect on hover */
+}
+
+#emptyTruckIcon {
+    font-size: 25px;
+    color: white; /* White truck icon to match the button */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+#fullTruckIcon {
+    font-size: 25px;
+    color: #ffc107; /* Yellow full truck icon for contrast */
+}
+
+/* Truck animation */
+@keyframes moveTruckRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+#emptyTruckIcon.animate {
+  animation: moveTruckRight 1s forwards;
+}
+
+/* Add subtle hover effect for inputs */
+input:hover {
+    border-color: #555;
+}
+#formType{
+    color:firebrick;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bolder;
+    align-self: center;
+    line-height: 25px;
+    font-size: larger;
+    margin-bottom: 20px;
+    cursor: none;
+    
+}
+#formType:hover{
+    color: #582727;
+    font-size: 1.5rem;
+}

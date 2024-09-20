@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Form.css';
 import { BsTruckFlatbed } from "react-icons/bs";
 import { PiTruckFill } from "react-icons/pi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; 
+import { PanelContext } from '../App';
 
-export default function Form({ formType, formBackendType }) {
-  // State variables for animations and password visibility
+export default function Form({formTypes}) {
+  // Reciving "whereToGoNext" state function for changing panel
+  const setWhereToGoNext = useContext(PanelContext);
+
+  // State variable for truck animation on submit button
   const [animateTruck, setAnimateTruck] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [formData, setFormData] = useState({ userName: '', password: '', userType: '' });
-  const [message, setMessage] = useState('');
 
-  // Toggle password visibility
+  // State variable for 'eye' icon in password to toggle eye open and close
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  // State variable for maintaining entered values in form
+  const [formData, setFormData] = useState({ userName: '', password: '' });
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  // Handle form data updates
+  // Handling live form data and updating state variable
   const handleFormData = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
+  // Handling both data and animation on form submit
+  const handleSubmit = (e) => {
     e.preventDefault();
+    // Destructuring form data and storing into variables 
     const { userName, password } = formData;
-    const userType = formBackendType === 'TR' || formBackendType === 'TL' ? 'Truck Owner' : 'Booker';
 
     if (userName && password) {
       setAnimateTruck(true);
@@ -34,37 +40,19 @@ export default function Form({ formType, formBackendType }) {
         setAnimateTruck(false);
       }, 1000);
 
-      try {
-        // Send the data to the back-end with the correct URL and field names
-        const response = await fetch('http://localhost:5000/register', { // Update the URL as needed
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username: userName, password, type: userType }), // Changed 'userType' to 'type'
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-          setMessage('Registration successful');
-          // Optionally, reset the form
-          setFormData({ userName: '', password: '', userType: '' });
-        } else {
-          setMessage(`Error: ${result.message}`);
-        }
-      } catch (error) {
-        setMessage('An unexpected error occurred.');
-        console.error("Error during fetch:", error);
+      // Routing based on formTypes after successful submission
+      if (formTypes[1] === 'TL' || formTypes[1] === 'TR') {
+        setWhereToGoNext("truck");
+      } else if (formTypes[1] === 'BL' || formTypes[1] === 'BR') {
+        setWhereToGoNext("booking");
       }
-    } else {
-      setMessage('Please fill in all required fields.');
     }
   };
 
   return (
     <div id="LRform">
       <form id="LRformbody" onSubmit={handleSubmit}>
-        <h1>{formType}</h1>
+        <h1 id="formType">{formTypes[0]}</h1>
 
         <div className="inputGroup">
           <label htmlFor="userName">Enter Your Username</label>
@@ -103,17 +91,6 @@ export default function Form({ formType, formBackendType }) {
           </span>
         </div>
 
-        {/* User type is determined by formBackendType and displayed here */}
-        <div className="inputGroup">
-          <label>User Type: </label>
-          <input 
-            type="text" 
-            name="userType"
-            value={formBackendType === 'TR' || formBackendType === 'TL' ? 'Truck Owner' : 'Booker'}
-            disabled 
-          />
-        </div>
-
         <div id="enterContainer">
           <button id="enterForm" type="submit">
             <BsTruckFlatbed id="emptyTruckIcon" className={animateTruck ? 'animate' : ''} />
@@ -121,9 +98,6 @@ export default function Form({ formType, formBackendType }) {
             <PiTruckFill id="fullTruckIcon" />
           </button>
         </div>
-
-        {/* Display success/error message */}
-        {message && <p>{message}</p>}
       </form>
     </div>
   );
