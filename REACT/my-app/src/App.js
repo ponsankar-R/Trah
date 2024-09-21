@@ -7,6 +7,7 @@ import BookingPanel from './3BOOKING/BookingPanel';
 import Profile from './2TRUCK/4Profile';
 
 export const PanelContext = createContext();
+// import login_update from './backend/index.js';
 
 function App() {
   const [whereToGoNext, setWhereToGoNext] = useState(false);
