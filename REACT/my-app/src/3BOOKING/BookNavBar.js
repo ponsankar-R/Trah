@@ -1,63 +1,55 @@
-import React, { useState } from 'react';
-import { FaRoad } from "react-icons/fa";
-import { GiTruck } from "react-icons/gi";
+import React, { useState } from 'react'; 
+import { FaHome } from "react-icons/fa";
+import { MdBookmarkAdded } from "react-icons/md";
 import { MdCircleNotifications } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 
 export default function BookNavBar({setBookingNavigation}) {
-  // State to keep track of the active button
-  const [activeButton, setActiveButton] = useState("ActiveTripButton");
+  const [activeButton, setActiveButton] = useState("bookingHome");
 
-  // Function to handle button clicks
   const handleTruckNav = (buttonName) => {
-    setActiveButton(buttonName); // Set the clicked button as active
+    setActiveButton(buttonName);
     setBookingNavigation(buttonName);
   };
 
-  // Button color for the active button
   const getButtonClasses = (buttonName) => {
     return activeButton === buttonName
-      ? 'bg-blue-700 text-white' // Dark green color for active button
-      : 'bg-green-500 text-white'; // Default color for other buttons
+      ? 'bg-blue-700 text-white'
+      : 'bg-green-500 text-white';
   };
 
   return (
     <div>
-      {/* Container for the navigation */}
       <div className='flex justify-around bg-slate-300 fixed bottom-0 left-0 w-full md:top-0 md:h-full md:w-fit md:flex-col z-50'>
-
-        {/* Active Trips Button */}
+        
         <button
           name="ActiveTripButton"
           onClick={() => handleTruckNav("bookingHome")}
-          className={`ActiveTripButton flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("ActiveTripButton")}`}
+          className={`flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("bookingHome")}`}
         >
-          <FaRoad className='text-2xl mb-1' />
+          <FaHome className='text-2xl mb-1' />
         </button>
 
-        {/* Trucks Button */}
         <button
           name="TruckButton"
           onClick={() => handleTruckNav("bookedTrucks")}
-          className={`TruckButton flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("TruckButton")}`}
+          className={`flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("bookedTrucks")}`}
         >
-          <GiTruck className='text-2xl mb-1' />
+          <MdBookmarkAdded className='text-2xl mb-1' />
         </button>
 
-        {/* Notification Button */}
         <button
           name="NotificationButton"
           onClick={() => handleTruckNav("bookingNotification")}
-          className={`NotificationButton flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("NotificationButton")}`}
+          className={`flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("bookingNotification")}`}
         >
           <MdCircleNotifications className='text-2xl mb-1' />
         </button>
 
-        {/* Profile Button */}
         <button
           name="ProfileButton"
           onClick={() => handleTruckNav("bookingProfile")}
-          className={`ProfileButton flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("ProfileButton")}`}
+          className={`flex flex-col items-center justify-center rounded-lg p-3 m-1 w-1/4 hover:bg-blue-950 md:w-auto md:m-4 shadow-lg transform hover:scale-105 transition duration-300 ease-in-out ${getButtonClasses("bookingProfile")}`}
         >
           <CgProfile className='text-2xl mb-1' />
         </button>

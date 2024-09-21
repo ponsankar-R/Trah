@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './1LOGINCOMP/Login';
 import TRUCKHOME from './2TRUCK/TruckHome';
 import BookingPanel from './3BOOKING/BookingPanel';
+import Profile from './2TRUCK/4Profile';
 
 export const PanelContext = createContext();
 
@@ -28,9 +29,11 @@ function App() {
     <PanelContext.Provider value={setWhereToGoNext}>
       <div>
         <Routes>
+          {/* the route mentioned below all are the now child of this provider so only these childs can access provider  values */}
           <Route path='/' element={<Login />} />
           <Route path='/truck' element={<TRUCKHOME />} />
           <Route path='/booking' element={<BookingPanel/>} />
+          <Route path='/profile' element={<Profile />} />
         </Routes>
       </div>
     </PanelContext.Provider>
