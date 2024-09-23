@@ -8,6 +8,7 @@ function BookingPanel() {
   const [bookingNavigation ,setBookingNavigation]=useState('bookingHome');
   return (
     <div>
+      <h1 className='text-center bg-blue-700  text-white font-extrabold text-4xl pointer-events-none '>TRAH</h1>
             {
               (bookingNavigation==='bookingHome')?(<BookingHome />):(bookingNavigation==='bookedTrucks')?(<BookedTruks />):(bookingNavigation==='bookingNotification')?(<bookingNotification />):(bookingNavigation==='bookingProfile')?(<BookingProfile />):(<></>)
             }

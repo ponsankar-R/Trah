@@ -1,14 +1,26 @@
-import React from 'react';
-import { FaTruck, FaSignOutAlt, FaQuestionCircle } from 'react-icons/fa';  // Icons for the profile page
+import React, { useState, useContext } from 'react';
+import { FaTruck, FaSignOutAlt, FaQuestionCircle } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
+import { PanelContext } from '../App';
+import { useNavigate } from 'react-router-dom';
+import TruckHelp from './TruckHelp';
 
 function Profile() {
-  //currently unable to use context 
-  // const setWhereToGoNext = useContext(PanelContext);
-  //handling signOut 
-  const handleSignOut=()=>{
+  // State variable for help page 
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const setWhereToGoNext = useContext(PanelContext);
+  const navigate = useNavigate();
 
-  }
+  const handleSignOut = () => {
+    setWhereToGoNext(false);  // Update context value
+    navigate('/');  // Redirect to login page
+  };
+
+  // Toggle help modal on button click
+  const handleTruckHelp = () => {
+    setIsHelpOpen(prevState => !prevState);  // Toggle between true and false
+  };
+
   return (
     <div className='md:ml-[7%] p-6 bg-gray-100 min-h-screen'>
       {/* Profile Section */}
@@ -42,19 +54,22 @@ function Profile() {
 
       {/* Buttons Section */}
       <div className='mt-12 space-y-4'>
-        <button className='w-full flex items-center justify-center bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200'>
+        <button
+          onClick={handleTruckHelp}
+          className='w-full flex items-center justify-center bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200'>
           <FaQuestionCircle className='mr-2 text-lg' />
           Help
         </button>
 
-        <button onClick={handleSignOut} className='w-full flex items-center justify-center bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition duration-200'>
+        <button
+          onClick={handleSignOut}
+          className='w-full flex items-center justify-center bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition duration-200'>
           <FaSignOutAlt className='mr-2 text-lg' />
           Sign Out
         </button>
-        <br>
-        </br>
-        <br></br>
 
+        {/* Render the TruckHelp component only if isHelpOpen is true */}
+        {isHelpOpen && <TruckHelp closeModal={() => setIsHelpOpen(false)} />}
       </div>
     </div>
   );
