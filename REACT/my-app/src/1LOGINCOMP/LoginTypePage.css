@@ -1,0 +1,96 @@
+/* LoginTypePage.css */
+
+#loginTypePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    font-family: 'Arial', sans-serif;
+}
+
+
+#appName {
+    font-size: 3rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.userTypeButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.typeButton {
+    background: #fff;
+    color: #333;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.typeButton:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+#truckL .truck, #truckR .truck, #bookerL .book, #bookerR .book {
+    font-size: 2rem;
+    color: #4facfe;
+}
+
+.typeButton:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+#truckL, #truckR {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    color: #fff;
+}
+
+#bookerL, #bookerR {
+    background: linear-gradient(45deg, #ff758c, #ff7eb3);
+    color: #fff;
+}
+
+.typeButton:focus {
+    outline: none;
+}
+
+#truckL:hover, #truckR:hover, #bookerL:hover, #bookerR:hover {
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+}
+
+#truckL:active, #truckR:active, #bookerL:active, #bookerR:active {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+}
+
+
+
+#appName {
+    font-size: 2.5rem; /* Smaller, more refined font size */
+    font-family: 'Verdana', sans-serif; /* Clean and professional font */
+    color: #1A237E; /* Deep royal blue for trust and strength */
+    font-weight: 900; /* Bold to convey authority and reliability */
+    margin-bottom: 30px; /* Reduced margin for a tighter layout */
+    text-align: center;
+    text-transform: uppercase; /* Keeps the strong and professional look */
+    letter-spacing: 1.5px; /* Slightly reduced letter-spacing */
+    padding: 15px 20px; /* Padding to fit the height appropriately */
+    border: 2px solid #FFD700; /* Slimmer gold border for elegance */
+    border-radius: 10px; /* Reduced border-radius for a sleeker appearance */
+    background-color: #F5F5F5; /* Light background to create a contrast */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+    display: inline-block; /* Takes height based on the content */
+}
