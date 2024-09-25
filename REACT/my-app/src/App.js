@@ -5,6 +5,8 @@ import Login from './1LOGINCOMP/Login';
 import TRUCKHOME from './2TRUCK/TruckHome';
 import BookingPanel from './3BOOKING/BookingPanel';
 import Profile from './2TRUCK/4Profile';
+import BookedTrucks from './3BOOKING/2BookedTruks';
+import BookingNotification from './3BOOKING/3BookingNotification';
 
 export const PanelContext = createContext();
 // import login_update from './backend/index.js';
@@ -35,6 +37,9 @@ function App() {
           <Route path='/truck' element={<TRUCKHOME />} />
           <Route path='/booking' element={<BookingPanel/>} />
           <Route path='/profile' element={<Profile />} />
+          <Route path="/booking-notification" element={<BookingNotification />} />
+          <Route path="/booked-trucks" element={<BookedTrucks />} />
+          <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </div>
     </PanelContext.Provider>

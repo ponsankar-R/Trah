@@ -7,7 +7,7 @@ import TruckHelp from './TruckHelp';
 
 function Profile() {
   // State variable for help page 
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isTruckHelpOpen, setIsTruckHelpOpen] = useState(false);
   const setWhereToGoNext = useContext(PanelContext);
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function Profile() {
 
   // Toggle help modal on button click
   const handleTruckHelp = () => {
-    setIsHelpOpen(prevState => !prevState);  // Toggle between true and false
+    setIsTruckHelpOpen(prevState => !prevState);  // Toggle between true and false
   };
 
   return (
@@ -69,7 +69,7 @@ function Profile() {
         </button>
 
         {/* Render the TruckHelp component only if isHelpOpen is true */}
-        {isHelpOpen && <TruckHelp closeModal={() => setIsHelpOpen(false)} />}
+        {isTruckHelpOpen && <TruckHelp closeModal={() => setIsTruckHelpOpen(false)} />}
       </div>
     </div>
   );
