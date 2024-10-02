@@ -11,25 +11,61 @@ function AddTruckContainer({ setAddTruckContainer }) {
     setAddTruckContainer(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Example validation
+  
     if (!truckName || !driverName || !truckCapacity) {
-      alert('Please fill in all the fields');
+      alert('Please fill in all the required fields');
       return;
     }
-
-    // You can now handle the data, e.g., send it to a backend
-    console.log({ truckName, driverName, truckCapacity });
-
-    // Reset fields after submission
-    setTruckName('');
-    setDriverName('');
-    setTruckCapacity('');
-    setAddTruckContainer(false);
+  
+    // Retrieve user information from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.id) {
+      alert('User not authenticated.');
+      return;
+    }
+  
+    const truckData = { 
+      truckName, 
+      driverName, 
+      truckCapacity, 
+      truckType, 
+      truckContact,
+      ownerId: user.id, // Include ownerId in the data
+    };
+  
+    try {
+      const response = await fetch('http://localhost:5000/trucks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(truckData),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result.message);
+  
+        // Reset fields after submission
+        setTruckName('');
+        setDriverName('');
+        setTruckCapacity('');
+        setTruckType('');
+        setTruckContact('');
+  
+        setAddTruckContainer(false);
+      } else {
+        const errorResult = await response.json();
+        alert(`Error: ${errorResult.message}`);
+      }
+    } catch (error) {
+      console.error('Error adding truck:', error);
+      alert('An error occurred while adding the truck.');
+    }
   };
-
+  
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-96">

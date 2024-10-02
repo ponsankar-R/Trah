@@ -48,7 +48,11 @@ export default function Form({ formTypes }) {
         if (response.status === 200 || response.status === 201) {
           setSuccess(response.data.message);
           setFormData({ username: '', password: '' });
-
+        
+          // Store user info in localStorage
+          const user = response.data.user;
+          localStorage.setItem('user', JSON.stringify(user));
+        
           if (type === 'TL' || type === 'TR') {
             setWhereToGoNext("truck");
           } else if (type === 'BL' || type === 'BR') {

@@ -35,6 +35,63 @@ const loginSchema = new mongoose.Schema({
 // Create a model based on the schema
 const Login = mongoose.model('Login', loginSchema);
 
+const truckSchema = new mongoose.Schema({
+  truckName: { type: String, required: true },
+  driverName: { type: String, required: true },
+  truckCapacity: { type: Number, required: true },
+  truckType: { type: String },
+  truckContact: { type: String },
+  owner : { type: mongoose.Schema.Types.ObjectID, ref: 'Login' ,required : true},
+});
+
+const Truck = mongoose.model('Truck', truckSchema);
+
+app.post('/trucks', async (req, res) => {
+  const { truckName, driverName, truckCapacity, truckType, truckContact, ownerId } = req.body;
+
+  // Basic validation
+  if (!truckName || !driverName || !truckCapacity || !ownerId) {
+    return res.status(400).json({ message: "Please provide all required fields, including ownerId." });
+  }
+
+  const newTruck = new Truck({
+    truckName,
+    driverName,
+    truckCapacity,
+    truckType,
+    truckContact,
+    owner: ownerId, // Associate truck with the owner
+  });
+
+  try {
+    await newTruck.save();
+    res.status(201).json({ message: "Truck added successfully!", truck: newTruck });
+  } catch (err) {
+    console.error("Error adding truck:", err.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+
+
+app.get('/trucks', async (req, res) => {
+  const { ownerId } = req.query;
+
+  if (!ownerId) {
+    return res.status(400).json({ message: "Owner ID is required." });
+  }
+
+  try {
+    const trucks = await Truck.find({ owner: ownerId });
+    res.status(200).json({ trucks });
+  } catch (err) {
+    console.error("Error fetching trucks:", err.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+
+
 // Connect to MongoDB
 async function connectToMongoDB() {
   try {
@@ -75,7 +132,14 @@ app.post('/register', async (req, res) => {
 
   try {
     await login_update(username, password, type);
-    res.status(201).json({ message: "User registered successfully!" });
+    res.status(201).json({
+      message: "User registered successfully!",
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        type: newUser.type,
+      },
+    });
   } catch (err) {
     if (err.message === "Username already exists.") {
       res.status(409).json({ message: "Username already exists. Please choose another one." });
@@ -115,7 +179,14 @@ app.post('/login', async (req, res) => {
     }
 
     // Login successful
-    res.status(200).json({ message: "Login successful!" });
+    res.status(200).json({
+      message: "Login successful!",
+      user: {
+        id: user._id,
+        username: user.username,
+        type: user.type,
+      },
+    });
   } catch (err) {
     console.error("Error during login:", err.message);
     res.status(500).json({ message: "Internal server error." });
