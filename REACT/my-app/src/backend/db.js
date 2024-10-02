@@ -35,6 +35,21 @@ const loginSchema = new mongoose.Schema({
 // Create a model based on the schema
 const Login = mongoose.model('Login', loginSchema);
 
+// Transport Schema and Model
+const transportSchema = new mongoose.Schema({
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'Login', required: true },
+  truck: { type: mongoose.Schema.Types.ObjectId, ref: 'Truck', required: true },
+  fromLocation: { type: String, required: true },
+  toLocation: { type: String, required: true },
+  fromDate: { type: Date, required: true },
+  toDate: { type: Date, required: true },
+  amount: { type: Number, default: 0 }, // Adjust as needed
+  status: { type: String, default: 'Pending' }, // e.g., 'Pending', 'On Travel', 'Completed'
+});
+
+const Transport = mongoose.model('Transport', transportSchema);
+
+
 const truckSchema = new mongoose.Schema({
   truckName: { type: String, required: true },
   driverName: { type: String, required: true },
@@ -68,6 +83,51 @@ app.post('/trucks', async (req, res) => {
     res.status(201).json({ message: "Truck added successfully!", truck: newTruck });
   } catch (err) {
     console.error("Error adding truck:", err.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Endpoint to create a new transport
+app.post('/transports', async (req, res) => {
+  const { ownerId, truckId, fromLocation, toLocation, fromDate, toDate } = req.body;
+
+  if (!ownerId || !truckId || !fromLocation || !toLocation || !fromDate || !toDate) {
+    return res.status(400).json({ message: "Please provide all required fields." });
+  }
+
+  const newTransport = new Transport({
+    owner: ownerId,
+    truck: truckId,
+    fromLocation,
+    toLocation,
+    fromDate,
+    toDate,
+    status: 'Pending',
+  });
+
+  try {
+    await newTransport.save();
+    res.status(201).json({ message: "Transport created successfully!", transport: newTransport });
+  } catch (err) {
+    console.error("Error creating transport:", err.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Endpoint to fetch transports for a given owner
+app.get('/transports', async (req, res) => {
+  const { ownerId } = req.query;
+
+  if (!ownerId) {
+    return res.status(400).json({ message: "Owner ID is required." });
+  }
+
+  try {
+    // Populate the truck details in the response
+    const transports = await Transport.find({ owner: ownerId }).populate('truck');
+    res.status(200).json({ transports });
+  } catch (err) {
+    console.error("Error fetching transports:", err.message);
     res.status(500).json({ message: "Internal server error." });
   }
 });
@@ -121,6 +181,24 @@ async function login_update(username, password, type) {
     throw err; // Propagate error to the caller
   }
 }
+
+// Endpoint to fetch trucks for a given owner
+app.get('/user-trucks', async (req, res) => {
+  const { ownerId } = req.query;
+
+  if (!ownerId) {
+    return res.status(400).json({ message: "Owner ID is required." });
+  }
+
+  try {
+    const trucks = await Truck.find({ owner: ownerId });
+    res.status(200).json({ trucks });
+  } catch (err) {
+    console.error("Error fetching user's trucks:", err.message);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
 
 // POST endpoint to handle registration
 app.post('/register', async (req, res) => {
