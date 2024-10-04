@@ -1,30 +1,46 @@
-import React,{useContext,useState} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FiHelpCircle, FiLogOut } from 'react-icons/fi'; // React icons for Help and SignOut
 import { PanelContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import BookingHelp from './BookingHelp';
 
 function BookingProfile() {
-  // Sample data for user
-  const userName = "John Doe";
-  const activeBooking = "2";
-  const totalBookings = 12;
-  const totalSuccess = 10;
-  const totalFailed = 2;
-
   const setWhereToGoNext = useContext(PanelContext);
   const navigate = useNavigate();
   const [isBookingHelpOpen, setIsBookingHelpOpen] = useState(false);
+  const [user, setUser] = useState({});
+
+  // Fetch user data from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      // Redirect to login if no user data found
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleSignOut = () => {
+    localStorage.removeItem('user');  // Remove user data from localStorage
     setWhereToGoNext(false);  // Update context value
     navigate('/');  // Redirect to login page
   };
 
   const handleBookingHelp = () => {
-    setIsBookingHelpOpen(prevState => !prevState);  // Toggle between true and false
+    setIsBookingHelpOpen(prevState => !prevState);  // Toggle help modal
   };
 
+  // If user data is not available yet
+  if (!user.username) {
+    return <p>Loading...</p>;
+  }
+
+  // Sample data for booking stats
+  const activeBooking = "2";
+  const totalBookings = 12;
+  const totalSuccess = 10;
+  const totalFailed = 2;
 
   return (
     <div className="ml-0 md:ml-[6%] 2xl:ml-[15%] space-y-6 text-white">
@@ -36,7 +52,7 @@ function BookingProfile() {
       {/* User Info */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-500 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-extrabold text-center py-4 bg-yellow-500 text-gray-900 rounded-lg shadow-md">
-          User Name: {userName}
+          User Name: {user.username}
         </h2>
       </div>
 
@@ -57,7 +73,7 @@ function BookingProfile() {
       {/* Full-Width Buttons */}
       <div className="space-y-4">
         {/* Help Button */}
-        <button  onClick={handleBookingHelp} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-full flex items-center justify-center">
+        <button onClick={handleBookingHelp} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-full flex items-center justify-center">
           <FiHelpCircle className="mr-2" size={24} />
           Help
         </button>

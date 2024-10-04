@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FaTruck, FaSignOutAlt, FaQuestionCircle } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 import { PanelContext } from '../App';
@@ -10,9 +10,21 @@ function Profile() {
   const [isTruckHelpOpen, setIsTruckHelpOpen] = useState(false);
   const setWhereToGoNext = useContext(PanelContext);
   const navigate = useNavigate();
+  
+  // State for storing username
+  const [username, setUsername] = useState('');
+
+  // Load the username from localStorage
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUsername(user.username); // Extract and set the username
+    }
+  }, []);
 
   const handleSignOut = () => {
     setWhereToGoNext(false);  // Update context value
+    localStorage.removeItem('user'); // Clear user data from localStorage
     navigate('/');  // Redirect to login page
   };
 
@@ -25,7 +37,7 @@ function Profile() {
     <div className='md:ml-[7%] p-6 bg-gray-100 min-h-screen'>
       {/* Profile Section */}
       <div className='bg-white rounded-lg shadow-lg p-6 mb-8'>
-        <h1 className='text-3xl font-bold mb-4'>ABC Transportation</h1>
+        <h1 className='text-3xl font-bold mb-4'>{username}'s Transportation Profile</h1>
         <p className='text-gray-600 text-xl'>Managing Trucks and Shipments</p>
       </div>
 

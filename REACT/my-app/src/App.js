@@ -7,6 +7,7 @@ import BookingPanel from './3BOOKING/BookingPanel';
 import Profile from './2TRUCK/4Profile';
 import BookedTrucks from './3BOOKING/2BookedTruks';
 import BookingNotification from './3BOOKING/3BookingNotification';
+import BookingProfile from './3BOOKING/4BookingProfile';
 
 export const PanelContext = createContext();
 // import login_update from './backend/index.js';
@@ -39,6 +40,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path="/booking-notification" element={<BookingNotification />} />
           <Route path="/booked-trucks" element={<BookedTrucks />} />
+          <Route path="/booking-profile" element={<BookingProfile/>} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </div>
