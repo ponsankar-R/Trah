@@ -6,8 +6,8 @@ const cors = require('cors');
 const bcrypt = require('bcrypt'); // bcrypt for password hashing
 
 // MongoDB connection URI
-const uri = "mongodb+srv://project0trah:projectTravelHub26@cluster0.lv48h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
+//const uri = "mongodb+srv://project0trah:projectTravelHub26@cluster0.lv48h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb://localhost:27017";
 if (!uri) {
   console.error("Error: MONGODB_URI is not defined in environment variables.");
   process.exit(1);

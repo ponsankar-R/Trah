@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';  // Import useContext, useState from React
 import axios from 'axios';  // Import axios for making HTTP requests
+import './Form.css'
 
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';  // Import icons from react-icons
 import { BsTruckFlatbed } from 'react-icons/bs';
