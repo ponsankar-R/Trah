@@ -1,12 +1,10 @@
-import React, { useContext, useState } from 'react';  // Import useContext, useState from React
-import axios from 'axios';  // Import axios for making HTTP requests
-import './Form.css'
-
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';  // Import icons from react-icons
+import React, { useContext, useState } from 'react';  
+import axios from 'axios';
+import './Form.css';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { BsTruckFlatbed } from 'react-icons/bs';
-import { PiTruckFill } from 'react-icons/pi';  // Ensure this import is correct; check the library
-
-import { PanelContext } from '../App.js';  // Import PanelContext from its appropriate file
+import { PiTruckFill } from 'react-icons/pi';
+import { PanelContext } from '../App.js';
 
 export default function Form({ formTypes }) {
   const setWhereToGoNext = useContext(PanelContext);
@@ -50,7 +48,6 @@ export default function Form({ formTypes }) {
           setSuccess(response.data.message);
           setFormData({ username: '', password: '' });
         
-          // Store user info in localStorage
           const user = response.data.user;
           localStorage.setItem('user', JSON.stringify(user));
         

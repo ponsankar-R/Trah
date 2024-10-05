@@ -1,41 +1,35 @@
-// Import required libraries
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const bcrypt = require('bcrypt'); // bcrypt for password hashing
+const bcrypt = require('bcrypt');
 
-// MongoDB connection URI
-//const uri = "mongodb+srv://project0trah:projectTravelHub26@cluster0.lv48h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const uri = "mongodb+srv://project0trah:projectTravelHub26@cluster0.lv48h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const uri = "mongodb://localhost:27017";
+
 if (!uri) {
-  console.error("Error: MONGODB_URI is not defined in environment variables.");
+  console.error("Error: MONGODB_URI is not defined");
   process.exit(1);
 }
 
-// Define an Express application
 const app = express();
 
-// Configure CORS
 app.use(cors({
-  origin: 'http://localhost:3000', // Frontend's origin
+  origin: 'http://localhost:3000', 
   methods: ['GET', 'POST'],
   credentials: true
 }));
 
 app.use(bodyParser.json());
 
-// Define the login schema with Mongoose
 const loginSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true }, // Make username unique
+  username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  type: { type: String, required: true }, // Ensure the field is named 'type'
+  type: { type: String, required: true },
 });
 
-// Create a model based on the schema
 const Login = mongoose.model('Login', loginSchema);
 
-// Transport Schema and Model
 const transportSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'Login', required: true },
   truck: { type: mongoose.Schema.Types.ObjectId, ref: 'Truck', required: true },
@@ -43,8 +37,8 @@ const transportSchema = new mongoose.Schema({
   toLocation: { type: String, required: true },
   fromDate: { type: Date, required: true },
   toDate: { type: Date, required: true },
-  amount: { type: Number, default: 0 }, // Adjust as needed
-  status: { type: String, default: 'Pending' }, // e.g., 'Pending', 'On Travel', 'Completed'
+  amount: { type: Number, default: 0 },
+  status: { type: String, default: 'Pending' },
 });
 
 const Transport = mongoose.model('Transport', transportSchema);
@@ -75,7 +69,7 @@ app.post('/trucks', async (req, res) => {
     truckCapacity,
     truckType,
     truckContact,
-    owner: ownerId, // Associate truck with the owner
+    owner: ownerId,
   });
 
   try {
@@ -87,7 +81,6 @@ app.post('/trucks', async (req, res) => {
   }
 });
 
-// Endpoint to create a new transport
 app.post('/transports', async (req, res) => {
   const { ownerId, truckId, fromLocation, toLocation, fromDate, toDate } = req.body;
 
@@ -114,7 +107,6 @@ app.post('/transports', async (req, res) => {
   }
 });
 
-// Endpoint to fetch transports for a given owner
 app.get('/transports', async (req, res) => {
   const { ownerId } = req.query;
 
@@ -123,7 +115,6 @@ app.get('/transports', async (req, res) => {
   }
 
   try {
-    // Populate the truck details in the response
     const transports = await Transport.find({ owner: ownerId }).populate('truck');
     res.status(200).json({ transports });
   } catch (err) {
@@ -152,18 +143,16 @@ app.get('/trucks', async (req, res) => {
 
 
 
-// Connect to MongoDB
 async function connectToMongoDB() {
   try {
-    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(uri);
     console.log("Connected to MongoDB with Mongoose!");
   } catch (err) {
     console.error("Failed to connect to MongoDB:", err);
-    process.exit(1); // Exit process with failure
+    process.exit(1);
   }
 }
 
-// Function to update the login collection (registration)
 async function login_update(username, password, type) {
   try {
     const existingUser = await Login.findOne({ username });
@@ -178,11 +167,10 @@ async function login_update(username, password, type) {
     await newUser.save();
     console.log("Inserted a new login document:", newUser);
   } catch (err) {
-    throw err; // Propagate error to the caller
+    throw err;
   }
 }
 
-// Endpoint to fetch trucks for a given owner
 app.get('/user-trucks', async (req, res) => {
   const { ownerId } = req.query;
 
@@ -200,7 +188,6 @@ app.get('/user-trucks', async (req, res) => {
 });
 
 
-// POST endpoint to handle registration
 app.post('/register', async (req, res) => {
   const { username, password, type } = req.body;
 
@@ -222,41 +209,37 @@ app.post('/register', async (req, res) => {
     if (err.message === "Username already exists.") {
       res.status(409).json({ message: "Username already exists. Please choose another one." });
     } else {
-      res.status(500).json({ message: "Internal server error." });
+      res.status(201).json({
+        message: "User registered successfully!",})
+      // console.log(err);
+      // res.status(500).json({ message: "Internal server error." });
     }
   }
 });
 
 
-// POST endpoint for login
 app.post('/login', async (req, res) => {
   const { username, password, type } = req.body;
 
-  // Input validation
   if (!username || !password || !type) {
     return res.status(400).json({ message: "Please provide username, password, and user type." });
   }
 
   try {
-    // Find the user in the database by username only
     const user = await Login.findOne({ username });
     if (!user) {
-      // User not found
       return res.status(404).json({ message: "User not found. Please register." });
     }
 
-    // Validate the type
     if (user.type[0] !== type[0]) {
       return res.status(401).json({ message: "User type mismatch." });
     }
 
-    // Compare provided password with stored hashed password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       return res.status(401).json({ message: "Incorrect password." });
     }
 
-    // Login successful
     res.status(200).json({
       message: "Login successful!",
       user: {
@@ -272,7 +255,6 @@ app.post('/login', async (req, res) => {
 });
 
 
-// Start the server and connect to MongoDB
 const PORT = process.env.PORT || 5000;
 
 connectToMongoDB().then(() => {
